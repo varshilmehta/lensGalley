@@ -5,7 +5,7 @@
  * Copyright (c) 2003-2017 John Willinsky
  * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
- * Embedded viewing of a PDF galley.
+ * Embedded viewing of a Lens galley.
  *}
 <script src="{$jQueryUrl}"></script>
 <script src="{$pluginLensPath}/lens.js"></script>
@@ -15,9 +15,10 @@
 	var linkElement = document.createElement("link");
 	linkElement.rel = "stylesheet";
 	linkElement.href = "{/literal}{$pluginLensPath|escape:"javascript"}{literal}/lens.css"; //Replace here
-
 	document.head.appendChild(linkElement);
-
+	
+	replace_images  = {/literal}{$replaceImages}{literal};
+	
 	$(document).ready(function(){
 		var app = new Lens({
 			document_url: "{/literal}{$xmlUrl|escape:'javascript'}{literal}"
