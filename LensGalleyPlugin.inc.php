@@ -70,19 +70,18 @@ class LensGalleyPlugin extends GenericPlugin {
 
 		$templateMgr = TemplateManager::getManager($request);
 		if ($galley && in_array($galley->getFileType(), array('application/xml', 'text/xml'))) {
-			
-			$galleyFile = $galley->getFile();
-			
-			
+
+			$replaceImages = json_encode($this->_getReplaceImages($request, $galley), JSON_UNESCAPED_SLASHES);
+						
 			$templateMgr->assign(array(
 				'pluginLensPath' => $this->getLensPath($request),
 				'pluginTemplatePath' => $this->getTemplatePath(),
 				'pluginUrl' => $request->getBaseUrl() . '/' . $this->getPluginPath(),
-				'galleyFile' => $galleyFile,
 				'issue' => $issue,
 				'article' => $article,
 				'galley' => $galley,
 				'jQueryUrl' => $this->_getJQueryUrl($request),
+				'replaceImages' => $replaceImages,
 			));
 			$templateMgr->display($this->getTemplatePath() . '/articleGalley.tpl');
 			return true;
@@ -159,17 +158,16 @@ class LensGalleyPlugin extends GenericPlugin {
 	}
 	
 	/**
-	 * Return string containing the contents of the HTML file.
-	 * This function performs any necessary filtering, like image URL replacement.
+	 * Return array containing the image names and new url's
 	 * @param $request PKPRequest
 	 * @param $galley ArticleGalley
-	 * @return string
+	 * @return Array
 	 */	
-	function _getHTMLContents($request, $contents, $galley) {
+	function _getReplaceImages($request, $galley) {
 		$journal = $request->getJournal();
 		$submissionFile = $galley->getFile();
+		$replaceImages = array();
 
-		// Replace media file references
 		$submissionFileDao = DAORegistry::getDAO('SubmissionFileDAO');
 		import('lib.pkp.classes.submission.SubmissionFile'); // Constants
 		$embeddableFiles = array_merge(
@@ -180,25 +178,20 @@ class LensGalleyPlugin extends GenericPlugin {
 		$articleDao = DAORegistry::getDAO('ArticleDAO');
 
 		foreach ($embeddableFiles as $embeddableFile) {
-			$params = array();
 
-			// Ensure that the $referredArticle object refers to the article we want
 			if (!$referredArticle || $referredArticle->getId() != $galley->getSubmissionId()) {
 				$referredArticle = $articleDao->getById($galley->getSubmissionId());
 			}
-			$fileUrl = $request->url(null, 'article', 'download', array($referredArticle->getBestArticleId(), $galley->getBestGalleyId(), $embeddableFile->getFileId()), $params);
-			$pattern = preg_quote($embeddableFile->getOriginalFileName());
-
-			$contents = preg_replace(
-				'/([Ss][Rr][Cc]|[Hh][Rr][Ee][Ff]|[Dd][Aa][Tt][Aa])\s*=\s*"([^"]*' . $pattern . ')"/',
-				'\1="' . $fileUrl . '"',
-				$contents
-			);
-
+			
+			$ojs_file = $embeddableFile->getOriginalFileName();
+			
+			$ojs_url = $request->url(null, 'article', 'download', array($referredArticle->getBestArticleId(), $galley->getBestGalleyId(), $embeddableFile->getFileId()));
+			
+			$replaceImages[] = array("ojs_file"=>$ojs_file, "ojs_url"=>$ojs_url);
 
 		}
 
-		return $contents;
+		return $replaceImages;
 	}		
 	
 	
