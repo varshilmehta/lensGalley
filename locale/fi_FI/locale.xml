@@ -2,7 +2,7 @@
 <!DOCTYPE locale SYSTEM "../../../../../lib/pkp/dtd/locale.dtd">
 
 <!--
-  * plugins/generic/lensGalley/locale/en_US/locale.xml
+  * plugins/generic/lensGalley/locale/fi_FI/locale.xml
   *
   * Copyright (c) 2014-2017 Simon Fraser University
   * Copyright (c) 2003-2017 John Willinsky
@@ -12,9 +12,9 @@
   -->
 
 <locale name="en_US" full_name="U.S. English">
-	<message key="plugins.generic.lensGalley.displayName">eLife Lens Article Viewer</message>
-	<message key="plugins.generic.lensGalley.description">This plugin provides rendering support for JATS XML galleys using eLife Lens.</message>
+	<message key="plugins.generic.lensGalley.displayName">eLife Lens</message>
+	<message key="plugins.generic.lensGalley.description">Tämä lisäosa muuntaa JATS XML -muotoisen artikkelin HTML-muotoon käyttämällä eLife Lens -ohjelmistoa.</message>
 	
-	<message key="plugins.generic.lensGalley.translate.back">Back</message>
+	<message key="plugins.generic.lensGalley.translate.back">Takaisin</message>
 	
 </locale>

@@ -72,7 +72,8 @@ class LensGalleyPlugin extends GenericPlugin {
 		if ($galley && in_array($galley->getFileType(), array('application/xml', 'text/xml'))) {
 
 			$replaceImages = json_encode($this->_getReplaceImages($request, $galley), JSON_UNESCAPED_SLASHES);
-						
+			$translationStrings = json_encode($this->_getTranslations(), JSON_UNESCAPED_SLASHES);
+					
 			$templateMgr->assign(array(
 				'pluginLensPath' => $this->getLensPath($request),
 				'pluginTemplatePath' => $this->getTemplatePath(),
@@ -82,6 +83,7 @@ class LensGalleyPlugin extends GenericPlugin {
 				'galley' => $galley,
 				'jQueryUrl' => $this->_getJQueryUrl($request),
 				'replaceImages' => $replaceImages,
+				'translationStrings' => $translationStrings,
 			));
 			$templateMgr->display($this->getTemplatePath() . '/articleGalley.tpl');
 			return true;
@@ -192,8 +194,17 @@ class LensGalleyPlugin extends GenericPlugin {
 		}
 
 		return $replaceImages;
-	}		
-	
+	}
+
+	/**
+	 * Return array containing the translation strings for lens
+	 * @return Array
+	 */	
+	function _getTranslations() {
+		return array(
+			'back' => __('plugins.generic.lensGalley.translate.back'),
+		);
+	}	
 	
 }
 

@@ -18,6 +18,8 @@
 	document.head.appendChild(linkElement);
 	
 	replace_images  = {/literal}{$replaceImages}{literal};
+	translate  = {/literal}{$translationStrings}{literal};
+
 	
 	$(document).ready(function(){
 		var app = new Lens({
