@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Lens Base styles */
 /* Textish Styles
 -------------------------------------------------------------------------------*/
@@ -24,7 +25,7 @@
 .content-node.paragraph .content-node.text.heading {
   display: block; }
 
-.content-node.paragraph > .content-node.text > div {
+.content-node.paragraph .content-node.text div {
   display: inline;
   width: auto; }
 
@@ -49,6 +50,7 @@
   display: inline; }
 
 .content-node.heading .content {
+  color: rgba(0, 0, 0, 0.8);
   font-weight: 600;
   line-height: 40px; }
 
@@ -122,7 +124,21 @@
   min-height: 28px; }
 
 .lens-article .content-node.cover {
-  text-align: center; }
+  color: rgba(0, 0, 0, 0.8); }
+
+.lens-article .content-node.cover .breadcrumbs {
+  font-size: 14px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  /* Prevent from nasty scrollbars that appear when eLife logo is shown */
+  overflow: hidden; }
+
+.lens-article .content-node.cover .breadcrumbs a {
+  margin-right: 20px;
+  display: block;
+  float: left;
+  line-height: 40px;
+  height: 40px; }
 
 .lens-article .content-node.cover .content {
   background: none; }
@@ -134,25 +150,20 @@
   padding-top: 20px; }
 
 .lens-article .content-node.cover .published-on {
-  color: #999; }
-
-.lens-article .content-node.cover .published-on a {
-  font-weight: 600;
-  color: #999; }
-
-.lens-article .content-node.cover .published-on a:hover {
-  color: #0277BD; }
+  margin-top: 50px;
+  margin-bottom: 20px;
+  color: #666; }
 
 .lens-article .content-node.cover .doi {
   margin-top: 30px;
   margin-bottom: 20px;
+  color: #666;
   font-size: 14px; }
 
 .lens-article .content-node.cover .content .authors {
   padding-top: 30px;
   color: #1B6685;
-  overflow: auto;
-  margin-bottom: 24px; }
+  overflow: auto; }
 
 .lens-article .content-node.cover .content .links {
   margin-top: 20px;
@@ -164,12 +175,12 @@
 
 /* One para per author */
 .lens-article .content-node.cover .authors .text {
-  display: inline-block;
+  float: left;
   padding: 0px;
   margin: 0px;
   font-size: 17px;
   margin-right: 10px;
-  margin-bottom: 0px; }
+  margin-bottom: 8px; }
 
 .lens-article .content-node.cover .authors .text.plain {
   color: #777;
@@ -356,7 +367,7 @@ Definition
   padding-bottom: 10px; }
 
 /*
-Contributor
+Contributor 
 --------------------------------------- */
 .lens-article .resources .content-node.contributor .resource-header .name {
   font-weight: normal;
@@ -364,8 +375,8 @@ Contributor
   color: #888; }
 
 .lens-article .content-node.contributor .affiliation {
-  margin-top: 12px;
-  margin-bottom: 12px; }
+  margin-top: 10px;
+  font-size: 14px; }
 
 .lens-article .content-node.contributor .contributor-bio {
   padding-top: 30px; }
@@ -389,16 +400,15 @@ Contributor
   font-weight: 600;
   margin-bottom: 20px; }
 
-.lens-article .content-node.contributor .contrib-label {
-  font-weight: 600; }
-
-.lens-article .content-node.contributor .contrib-data {
-  margin-bottom: 12px; }
+.lens-article .content-node.contributor .label {
+  font-size: 14px;
+  margin-top: 20px;
+  color: #999; }
 
 /* Publication Info */
 .lens-article .content-node.publication-info {
-  color: #333;
-  font-size: 16px; }
+  font-size: 14px;
+  color: #333; }
 
 .lens-article .content-node.publication-info table {
   padding: 10px 0;
@@ -417,15 +427,24 @@ Contributor
 .lens-article .content-node.publication-info .value {
   margin-left: 140px; }
 
+.lens-article .content-node.publication-info .dates {
+  /*font-size: 14px;*/ }
+
 .article .resources .nodes > .content-node.publication-info > .content {
   border: none;
   padding: 20px; }
 
+.article .resources .nodes > .content-node.publication-info .content-node[data-id=articleinfo] {
+  font-size: 14px; }
+
+.article .resources .nodes > .content-node.publication-info .content-node[data-id=articleinfo] .heading.level-3 {
+  padding-top: 10px; }
+
 .article .resources .nodes > .content-node.publication-info .content-node[data-id=articleinfo] .heading.level-3 .content {
-  font-size: 20px;
-  margin-top: 12px;
-  /* The 'content-node paragraph' below has a padding top making the space between the heading and text 22px rather than 12. */
-  /* margin-bottom: 12px; */ }
+  font-size: 14px;
+  font-weight: normal;
+  font-family: "Source Sans Pro";
+  color: #999; }
 
 .article .resources .nodes > .content-node.publication-info .content-node[data-id=articleinfo] .content-node {
   padding-top: 10px; }
@@ -608,7 +627,7 @@ out (on iOS 5.1), or flicker (on iOS 6). */
   padding-right: 50px;
   position: relative; }
 
-/* It's not exactly good to have the overflow-y: scroll for the container AND the surface.
+/* It's not exactly good to have the overflow-y: scroll for the container AND the surface.
    There should be just one overflowing container, if possible
 */
 .article .resources .panel {
@@ -629,6 +648,7 @@ out (on iOS 5.1), or flicker (on iOS 6). */
   right: 0px;
   overflow-y: scroll;
   overflow-x: hidden;
+  font-size: 14px;
   -webkit-overflow-scrolling: touch; }
 
 .article .nodes {
@@ -640,6 +660,7 @@ out (on iOS 5.1), or flicker (on iOS 6). */
   padding-right: 20px; }
 
 .article .resources .nodes > .content-node {
+  color: #505050;
   position: relative;
   background: #fff;
   border-bottom: 1px solid #ddd;
@@ -678,6 +699,7 @@ out (on iOS 5.1), or flicker (on iOS 6). */
 .article .resources .resource-header .name {
   display: block;
   min-height: 30px;
+  color: #444;
   font-size: 16px;
   line-height: 21px;
   padding: 0px 20px;
@@ -815,6 +837,7 @@ span.annotation.formula_reference, span.publication_reference {
   background-color: rgba(237, 96, 48, 0.3); }
 
 .content-node .link {
+  color: #1B6685;
   font-weight: bold; }
 
 .content-node .link:hover, .content-node .link.highlighted {
@@ -1127,12 +1150,8 @@ TOC
 
 /* Colors for scroll-bar overlays */
 .article .resources .figures .surface-scrollbar .highlighted,
-.article .content .surface-scrollbar .highlighted.figure_reference,
-.article .content .surface-scrollbar .highlighted.figure {
+.article .content .surface-scrollbar .highlighted.figure_reference {
   background-color: #91bb04; }
-
-.article .content .surface-scrollbar .highlighted.figure.main-occurrence {
-  border-right: 3px solid #5C6148; }
 
 .article .resources .citations .surface-scrollbar .highlighted,
 .article .content .surface-scrollbar .highlighted.citation_reference {
@@ -1157,34 +1176,6 @@ TOC
 .panel.document .nodes > .content-node > .focus-handle:hover {
   border-left: 3px solid #bbb; }
 
-/* Footnote
-=============================== */
-.content-node.footnote {
-  font-size: 13px;
-  display: block !important;
-  margin: 20px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 20px; }
-
-.footnote-reference > a {
-  vertical-align: super;
-  padding: 0 2px;
-  border: 1px solid #ddd;
-  font-size: 13px; }
-
-.footnote-reference > a:hover {
-  background: #eee; }
-
-.footnote-reference.sm-expanded > a {
-  background: #ddd; }
-
-.footnote-reference > .footnote {
-  display: none !important; }
-
-.footnote-reference.sm-expanded > .footnote {
-  display: block !important; }
-
 /*
   Typography / Basics
 ---------------------------------------------*/
@@ -1195,7 +1186,7 @@ body {
   padding: 0;
   margin: 0;
   background-color: white;
-  /* -moz-transition: background-color 200ms linear;
+  /*  -moz-transition: background-color 200ms linear;
   -o-transition: background-color 200ms linear;
   -webkit-transition: background-color 200ms linear;
   transition: background-color 200ms linear;*/ }
@@ -1220,7 +1211,7 @@ body.reader {
   clear: both; }
 
 /*
-General Layout
+General Layout 
 --------------------------------------- */
 #container {
   position: relative;
@@ -1380,41 +1371,3 @@ body.loading .spinner-wrapper {
 
 #MathJax_Message {
   display: none; }
-
-
-
-/* Footnote
-=============================== */
-
-.content-node.footnote {
-  font-size: 13px;
-  display: block !important;
-  margin: 20px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 20px;
-}
-
-.footnote-reference > a {
-  color: #444 ;
-  vertical-align: super;
-  padding: 0 2px;
-  border: 1px solid #ddd;
-  font-size: 13px;
-}
-
-.footnote-reference > a:hover {
-  background: #eee;
-}
-
-.footnote-reference.sm-expanded > a {
-  background: #ddd;
-}
-
-.footnote-reference > .footnote {
-  display: none !important;
-}
-
-.footnote-reference.sm-expanded  >.footnote {
-  display: block !important;
-}
