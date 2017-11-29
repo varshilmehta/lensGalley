@@ -70,20 +70,15 @@ class LensGalleyPlugin extends GenericPlugin {
 
 		$templateMgr = TemplateManager::getManager($request);
 		if ($galley && in_array($galley->getFileType(), array('application/xml', 'text/xml'))) {
-
-			$replaceImages = json_encode($this->_getReplaceImages($request, $galley), JSON_UNESCAPED_SLASHES);
-			$translationStrings = json_encode($this->_getTranslations(), JSON_UNESCAPED_SLASHES);
-					
 			$templateMgr->assign(array(
 				'pluginLensPath' => $this->getLensPath($request),
 				'pluginTemplatePath' => $this->getTemplatePath(),
 				'pluginUrl' => $request->getBaseUrl() . '/' . $this->getPluginPath(),
+				'galleyFile' => $galley->getFile(),
 				'issue' => $issue,
 				'article' => $article,
 				'galley' => $galley,
 				'jQueryUrl' => $this->_getJQueryUrl($request),
-				'replaceImages' => $replaceImages,
-				'translationStrings' => $translationStrings,
 			));
 			$templateMgr->display($this->getTemplatePath() . '/articleGalley.tpl');
 			return true;
@@ -158,54 +153,6 @@ class LensGalleyPlugin extends GenericPlugin {
 	function getTemplatePath($inCore = false) {
 		return parent::getTemplatePath($inCore) . 'templates/';
 	}
-	
-	/**
-	 * Return array containing the image names and new url's
-	 * @param $request PKPRequest
-	 * @param $galley ArticleGalley
-	 * @return Array
-	 */	
-	function _getReplaceImages($request, $galley) {
-		$journal = $request->getJournal();
-		$submissionFile = $galley->getFile();
-		$replaceImages = array();
-
-		$submissionFileDao = DAORegistry::getDAO('SubmissionFileDAO');
-		import('lib.pkp.classes.submission.SubmissionFile'); // Constants
-		$embeddableFiles = array_merge(
-			$submissionFileDao->getLatestRevisions($submissionFile->getSubmissionId(), SUBMISSION_FILE_PROOF),
-			$submissionFileDao->getLatestRevisionsByAssocId(ASSOC_TYPE_SUBMISSION_FILE, $submissionFile->getFileId(), $submissionFile->getSubmissionId(), SUBMISSION_FILE_DEPENDENT)
-		);
-		$referredArticle = null;
-		$articleDao = DAORegistry::getDAO('ArticleDAO');
-
-		foreach ($embeddableFiles as $embeddableFile) {
-
-			if (!$referredArticle || $referredArticle->getId() != $galley->getSubmissionId()) {
-				$referredArticle = $articleDao->getById($galley->getSubmissionId());
-			}
-			
-			$ojs_file = $embeddableFile->getOriginalFileName();
-			
-			$ojs_url = $request->url(null, 'article', 'download', array($referredArticle->getBestArticleId(), $galley->getBestGalleyId(), $embeddableFile->getFileId()));
-			
-			$replaceImages[] = array("ojs_file"=>$ojs_file, "ojs_url"=>$ojs_url);
-
-		}
-
-		return $replaceImages;
-	}
-
-	/**
-	 * Return array containing the translation strings for lens
-	 * @return Array
-	 */	
-	function _getTranslations() {
-		return array(
-			'back' => __('plugins.generic.lensGalley.translate.back'),
-		);
-	}	
-	
 }
 
 ?>
